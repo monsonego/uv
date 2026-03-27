@@ -313,26 +313,28 @@ impl Workspace {
     ///
     /// Returns `None` if the package is not part of the workspace.
     pub fn with_current_project(
-        slf: Arc<Self>,
+        self: Arc<Self>,
         package_name: PackageName,
     ) -> Option<ProjectWorkspace> {
-        let member = slf.packages.get(&package_name)?;
+        let member = self.packages.get(&package_name)?;
         Some(ProjectWorkspace {
             project_root: member.root().clone(),
             project_name: package_name,
-            workspace: slf,
+            workspace: self,
         })
     }
 
     /// Set the [`ProjectWorkspace`] for a given workspace member.
     ///
-    /// Assumes that the project name is unchanged in the updated [`PyProjectToml`].
+    /// Assumes that the project name is unchanged in the updated [`PyProjectToml`], and that the
+    /// caller holds the only reference to this workspace (to avoid a situation where another part
+    /// of uv still holds a reference to the old workspace structure).
     fn update_member(
-        slf: Arc<Self>,
+        self: Arc<Self>,
         package_name: &PackageName,
         pyproject_toml: PyProjectToml,
     ) -> Result<Option<Arc<Self>>, WorkspaceError> {
-        let slf = Arc::try_unwrap(slf).unwrap_or_else(|slf| {
+        let slf = Arc::try_unwrap(self).unwrap_or_else(|slf| {
             if cfg!(debug_assertions) {
                 panic!(
                     "Cannot modify workspace still in use with {} references",
