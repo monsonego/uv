@@ -1,9 +1,8 @@
 pub use dependency_mode::DependencyMode;
 pub use error::{ErrorTree, NoSolutionError, NoSolutionHeader, ResolveError, SentinelRange};
 pub use exclude_newer::{
-    ExcludeNewer, ExcludeNewerChange, ExcludeNewerPackage, ExcludeNewerPackageChange,
-    ExcludeNewerPackageEntry, ExcludeNewerValue, ExcludeNewerValueChange, PackageExcludeNewer,
-    PackageExcludeNewerChange,
+    ExcludeNewer, ExcludeNewerChange, ExcludeNewerOverrideChange, ExcludeNewerPackage,
+    ExcludeNewerPackageChange, ExcludeNewerPackageEntry, ExcludeNewerValueChange,
 };
 pub use exclusions::Exclusions;
 pub use flat_index::{FlatDistributions, FlatIndex};
@@ -28,6 +27,7 @@ pub use resolver::{
     ResolverProvider, VersionsResponse, WheelMetadataResult,
 };
 pub use universal_marker::{ConflictMarker, UniversalMarker};
+pub use uv_distribution_types::{ExcludeNewerOverride, ExcludeNewerSpan, ExcludeNewerValue};
 pub use version_map::VersionMap;
 pub use yanks::AllowedYanks;
 
